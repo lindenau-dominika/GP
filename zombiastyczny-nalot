@@ -9,6 +9,19 @@ def ekwipunek():
     mobs.give(mobs.target(NEAREST_PLAYER), ARROW, 64)
     mobs.give(mobs.target(NEAREST_PLAYER), BOW, 1)
 
+def runda1(x,y,z,runda):
+    blocks.print(runda, SEA_LANTERN, world(x+5, y+10, z+45), WEST)
+    mobs.spawn(ZOMBIE, randpos(world(x+5, y+5, z+5), world(x+35, y+5, z+35)))
+    loops.pause(1000)
+    mobs.spawn(SKELETON, randpos(world(x+5, y+5, z+5), world(x+35, y+5, z+35)))
+    loops.pause(1000)
+    mobs.spawn(CREEPER, randpos(world(x+5, y+5, z+5), world(x+35, y+5, z+35)))
+    loops.pause(1000)
+    mobs.spawn(GHAST, randpos(world(x+5, y+5, z+5), world(x+35, y+5, z+35)))
+    loops.pause(1000)
+    mobs.spawn(BLAZE, randpos(world(x+5, y+5, z+5), world(x+35, y+5, z+35)))
+    loops.pause(45000)
+
 #funkcja odpowiedzialna za przygotowanie areny
 def arenaKonstruktor():
     #ustawiamy noc
@@ -32,10 +45,18 @@ def arenaKonstruktor():
     blocks.place(BEACON, world(x+1,y+5,z+39))
     blocks.place(BEACON, world(x+39,y+5,z+39))
 
+
     #tworzymy schody
     for i in range(15,21):
         shapes.line(STONE_BRICK_STAIRS, world(x-4,y,z+i), world(x,y+4,z+i))
- 
+    
+    #tworzymy napis
+    blocks.print("RUNDA", SEA_LANTERN, world(x+35, y+10, z+45), WEST)
+
+    gameplay.set_game_mode(SURVIVAL, mobs.target(NEAREST_PLAYER))
+
+    runda1(x,y,z,"1")
 
 player.on_chat("arena", arenaKonstruktor)
 player.on_chat("ekwipunek", ekwipunek)
+
