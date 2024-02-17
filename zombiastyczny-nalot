@@ -1,79 +1,56 @@
-
-
-
-
-
-
-quiz: https://quiz.giganciprogramowania.edu.pl/ptg2-q3
-
-
-
-
-
-
-Olek
-https://makecode.com/_JicaXD0ckJsa
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-https://drive.google.com/file/d/1wQOyYHryivj9AMXCC6x8KkXKzjjYmIg1/view?usp=drive_link
-
-https://cutt.ly/VHW1sBx
-https://cutt.ly/r0sXuDg
-
-2
-https://cutt.ly/s2fbIpE
-https://cutt.ly/r0sXuDg
+local DSS = game:GetService("DataStoreService")
+local Bank = DSS:GetDataStore("Kasa")
+local Spis = DSS:GetDataStore("Pokonani")
+
+game.Players.PlayerAdded:Connect(function(gracz)
+ 
+ local kasa = Bank:GetAsync(gracz.UserId) or 0
+ local pokonani = Spis:GetAsync(gracz.UserId) or 0
+ 
+ local tablicaNaSerwerze = Instance.new("Folder", game.ServerStorage)
+ tablicaNaSerwerze.Name = gracz.Name
+ 
+ local kasaNaSerwerze = Instance.new("NumberValue", tablicaNaSerwerze)
+ kasaNaSerwerze.Name = "Kasa"
+ kasaNaSerwerze.Value = kasa
+ 
+ local pokonaniNaSerwerze = Instance.new("NumberValue", tablicaNaSerwerze)
+ pokonaniNaSerwerze.Name = "Pokonani"
+ pokonaniNaSerwerze.Value = pokonani
+ 
+ 
+ local tablicaLokalnie = Instance.new("Folder", gracz)
+ tablicaLokalnie.Name = "leaderstats"
+ 
+ local kasaLokalnie = Instance.new("NumberValue", tablicaLokalnie)
+ kasaLokalnie.Name = "Kasa"
+ kasaLokalnie.Value = kasa
+ 
+ local pokonaniLokalnie = Instance.new("NumberValue", tablicaLokalnie)
+ pokonaniLokalnie.Name = "Pokonani"
+ pokonaniLokalnie.Value = pokonani 
+ 
+ 
+ 
+ 
+ gracz:LoadCharacter()
+  kasaNaSerwerze.Changed:connect(function(liczba)
+  kasaLokalnie.Value = liczba
+ end)
+ 
+ pokonaniNaSerwerze.Changed:Connect(function(liczba)
+  pokonaniLokalnie.Value = liczba
+ end)
+ 
+ 
+ 
+ while true do
+  Bank:SetAsync(gracz.UserId, kasaNaSerwerze.Value)
+  Spis:SetAsync(gracz.UserId, pokonaniNaSerwerze.Value)
+ 
+  print("Kasa zapisana!")
+ x print("Pokonani zapisani!")
+  wait(10)
+ end
+ 
+end)
